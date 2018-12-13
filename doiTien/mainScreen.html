@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chuyen doi tien te</title>
+</head>
+<body>
+
+    <form action="mainScreen.html" method="post">
+        Amount: <input type="number" id="amount" value="0"/>
+        <select id = "fromCurrency">
+            <option value ="VietNam">VietNam</option>
+            <option value ="USD" selected>USD</option>
+        </select>
+        <select id = "toCurrency">
+            <option value = "USD">USD</option>
+            <option value = "VietNam" selected>VietNam</option>
+        </select>
+        <input type="button"  onclick="myFunction()" value="submit" />
+    </form>
+    <script>
+        function myFunction() {
+        var am= document.getElementById('amount').value;
+        var fr = document.getElementById('fromCurrency').value;
+        var to = document.getElementById('toCurrency').value;
+        var result;
+        if (fr ==  "USD"&&to=="VietNam"){
+            result=am*23000;
+        }
+        else if(fr=="USD"&&to== "USD"){
+            result=am;
+        }
+        else if (fr=="VietNam"&&to=="USD"){
+            result=am/23000;
+        }
+        else{
+            result=am;
+        }
+        document.write(result);
+        }
+    </script>
+</body>
+</html>
