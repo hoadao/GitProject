@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Caculator</title>
+</head>
+<body>
+    <h1>Calculator</h1>
+
+    <div id="calculator" class="calculator">
+        <div id="viewer" class="viewer">0</div>
+
+        <button id="clear" class="clear">C</button>
+
+
+
+        <button class="num" data-num="7">7</button>
+        <button class="num" data-num="8">8</button>
+        <button class="num" data-num="9">9</button><br/>
+        <button data-ops="plus" class="ops">+</button>
+
+        <button class="num" data-num="4">4</button>
+        <button class="num" data-num="5">5</button>
+        <button class="num" data-num="6">6</button><br/>
+        <button data-ops="minus" class="ops">-</button>
+
+        <button class="num" data-num="1">1</button>
+        <button class="num" data-num="2">2</button>
+        <button class="num" data-num="3">3</button><br/>
+        <button data-ops="times" class="ops">*</button>
+
+        <button class="num" data-num="0">0</button>
+        <button class="num" data-num=".">.</button>
+        <button id="equals" class="equals" data-result="">=</button>
+        <button data-ops="divided by" class="ops">/</button>
+    </div>
+
+    <script>
+        (function() {
+            // Shortcut to get elements
+            var el = function(element) {
+            if (element.charAt(0) === "#") { // If passed an ID...
+                return document.querySelector(element); // ... returns single element
+            }
+
+                return document.querySelectorAll(element); // Otherwise, returns a nodelist
+            };
+
+            // Variables
+            var viewer = el("#viewer"), // man hinh hien thi ket qua
+            equals = el("#equals"), // phim "="
+            nums = el(".num"), // Cac so
+            ops = el(".ops"), // Cac toan tu
+            theNum = "", // so hien tai (string)
+            oldNum = "", // so nhap vao truoc
+            resultNum, // khai bao bien ket qua
+            operator;
+
+            // Khi click vao so
+            var setNum = function() {
+            if (resultNum) { // Neu dang hien thi ket qua thi se reset lai
+                theNum = this.getAttribute("data-num");
+                resultNum = "";
+            } else { // Noi them so vao sau chuoi (string)
+                theNum += this.getAttribute("data-num");
+            }
+
+            viewer.innerHTML = theNum; // Display current number
+
+            };
+
+            // Khi click vao toan tu, so tren man hinh chuyen thanh oldNum
+            var moveNum = function() {
+                oldNum = theNum;
+                theNum = "";
+                operator = this.getAttribute("data-ops");
+
+                equals.setAttribute("data-result", "");
+            };
+
+            // sau khi bam vao dau "="
+            var displayNum = function() {
+
+                 // Chuyen doi tu string sang float
+                oldNum = parseFloat(oldNum);
+                theNum = parseFloat(theNum);
+
+            // them hanh dong cho toan tu
+            switch (operator) {
+            case "plus":
+                resultNum = oldNum + theNum;
+            break;
+
+            case "minus":
+                resultNum = oldNum - theNum;
+            break;
+
+            case "times":
+                resultNum = oldNum * theNum;
+            break;
+
+            case "divided by":
+                resultNum = oldNum / theNum;
+            break;
+
+            // Truong hop bam dau "=" khi chua tinh toan
+            default:
+                resultNum = theNum;
+            }
+            // Hien thi ket qua cuoi cung
+            viewer.innerHTML = resultNum;
+            equals.setAttribute("data-result", resultNum);
+
+            // giu ket qua de tiep tuc tinh toan
+            oldNum = 0;
+            theNum = resultNum;
+
+            };
+
+            // Khi bam vao nut C thi xoa het cac so
+            var clearAll = function() {
+                oldNum = "";
+                theNum = "";
+                viewer.innerHTML = "0";
+                equals.setAttribute("data-result", resultNum);
+            };
+
+            // Khi click vao cac so
+            for (var i = 0, l = nums.length; i < l; i++) {
+                nums[i].onclick = setNum;
+            }
+
+            // Khi click vao cac toan tu
+            for (var i = 0, l = ops.length; i < l; i++) {
+                ops[i].onclick = moveNum;
+            }
+
+            // Khi click vao dau "="
+            equals.onclick = displayNum;
+
+            // Khi click vao nut C
+            el("#clear").onclick = clearAll;
+
+
+            }());
+        </script>
+</body>
+</html>
